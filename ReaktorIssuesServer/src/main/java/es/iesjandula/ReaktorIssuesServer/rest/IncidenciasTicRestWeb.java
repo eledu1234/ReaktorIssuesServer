@@ -46,7 +46,8 @@ public class IncidenciasTicRestWeb {
 		System.out.print(arrayIncidencias[i]);
 
 		return ResponseEntity.ok().body(nuevaIncidenciaTic);
-		} catch (Exception exception)
+		} 
+			catch (Exception exception)
 		{
 	        IssuesServerException IssuesServerException = 
 	        		new IssuesServerException(hashCode(), 

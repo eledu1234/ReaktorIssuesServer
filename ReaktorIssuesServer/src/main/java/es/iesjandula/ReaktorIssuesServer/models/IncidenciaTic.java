@@ -4,17 +4,39 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class IncidenciaTic implements Serializable{
+import org.springframework.data.annotation.Id;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="incidencia")
+public class IncidenciaTic{
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8935654027241269590L;
+	
+	@Id
+	@Column (length=10)
+	private Long id;
+	
+	@Column (length=10, unique=true)
 	private Double numeroAula;
+	
+	@Column (length=50)
 	private String nombreProfesor;
-	private LocalDateTime fechaActual = LocalDateTime.now();
+	
+	@Column(nullable = false)
+	private LocalDateTime fechaActual;
+	
+	@Column (length=400)
 	private String descripcionIncidencia;
 	
+	public IncidenciaTic() {
+		
+	}
 	
 	public IncidenciaTic(Double numeroAula, String nombreProfesor, String descripcionIncidencia) {
 		this.numeroAula = numeroAula;
