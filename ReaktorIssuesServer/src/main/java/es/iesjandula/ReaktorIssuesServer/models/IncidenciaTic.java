@@ -1,6 +1,5 @@
 package es.iesjandula.ReaktorIssuesServer.models;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -14,10 +13,6 @@ import jakarta.persistence.Table;
 @Table(name="incidencia")
 public class IncidenciaTic{
 	
-	/**
-	 * 
-	 */
-	
 	@Id
 	@Column (length=10)
 	private Long id;
@@ -25,7 +20,7 @@ public class IncidenciaTic{
 	@Column (length=10, unique=true)
 	private Double numeroAula;
 	
-	@Column (length=50)
+	@Column (length=100)
 	private String nombreProfesor;
 	
 	@Column(nullable = false)

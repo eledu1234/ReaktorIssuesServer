@@ -1,7 +1,5 @@
 package es.iesjandula.ReaktorIssuesServer.exceptions;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Francisco Manuel Benítez Chico
