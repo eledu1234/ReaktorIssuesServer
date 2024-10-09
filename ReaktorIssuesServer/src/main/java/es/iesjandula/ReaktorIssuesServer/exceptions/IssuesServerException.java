@@ -1,14 +1,14 @@
 package es.iesjandula.ReaktorIssuesServer.exceptions;
 
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * @author Francisco Manuel Benítez Chico
- */
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
+
 public class IssuesServerException extends Exception
 {
-	/**
-	 * Serial Version UID
-	 */
+	/** Serial Version UID */
 	private static final long serialVersionUID = 4514190388643824325L ;
 	
 	/** Codigo de error para la excepcion */
@@ -44,6 +44,26 @@ public class IssuesServerException extends Exception
 		this.code 	   = code ;
 		this.message   = message ;
 		this.exception = exception ;
+	}
+	
+	
+	/**
+	 * Metodo que mapea el error para mostrarlo de forma ordenada al usuario
+	 * @return mapException con clave valor <String,String>
+	 */
+	public Map<String, String> StackTrace()
+	{
+		Map <String, String> mapException= new HashMap<String, String>();
+		
+		mapException.put("code", String.valueOf(code));
+		mapException.put("message", message);
+		
+		if(this.exception != null)
+		{
+			String stackTrace = ExceptionUtils.getStackTrace(this.exception);
+			mapException.put("stackTrace", stackTrace);
+		}
+		return mapException;
 	}
 	
 }

@@ -29,9 +29,12 @@ public class IncidenciasTicRestWeb {
 		{
 			
 		IncidenciaTic nuevaIncidenciaTic = new IncidenciaTic(
+				IncidenciaTic.getId(),
 				IncidenciaTic.getNumeroAula(),
 				IncidenciaTic.getNombreProfesor(),
-				IncidenciaTic.getDescripcionIncidencia());
+				IncidenciaTic.getFechaActual(),
+				IncidenciaTic.getDescripcionIncidencia(),
+				IncidenciaTic.isCheck());
 
 		int i = 0;
 		while (i < arrayIncidencias.length) {

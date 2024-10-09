@@ -1,13 +1,21 @@
 package es.iesjandula.ReaktorIssuesServer.models;
 
 import java.time.LocalDateTime;
+
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 @Entity
 @Table(name="incidencia")
@@ -15,7 +23,8 @@ public class IncidenciaTic{
 	
 	@Id
 	@Column (length=10)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	
 	@Column (length=10, unique=true)
 	private Double numeroAula;
@@ -24,77 +33,84 @@ public class IncidenciaTic{
 	private String nombreProfesor;
 	
 	@Column(nullable = false)
-	private LocalDateTime fechaActual;
+	private LocalDateTime fechaActual = LocalDateTime.now();
 	
 	@Column (length=400)
 	private String descripcionIncidencia;
 	
-	public IncidenciaTic() {
-		
-	}
+	@Column ()
+	private boolean check = false;
 	
-	public IncidenciaTic(Double numeroAula, String nombreProfesor, String descripcionIncidencia) {
+	
+	
+	
+
+	public IncidenciaTic(Integer id, Double numeroAula, String nombreProfesor, LocalDateTime fechaActual,
+			String descripcionIncidencia, boolean check) {
+		super();
+		this.id = id;
 		this.numeroAula = numeroAula;
 		this.nombreProfesor = nombreProfesor;
 		this.fechaActual = LocalDateTime.now();
 		this.descripcionIncidencia = descripcionIncidencia;
+		this.check = false;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Double getNumeroAula() {
 		return numeroAula;
 	}
 
-	public String getNombreProfesor() {
-		return nombreProfesor;
-	}
-
-	public String getDescripcionIncidencia() {
-		return descripcionIncidencia;
-	}
-	
-	
-	public LocalDateTime getFechaActual() {
-		return fechaActual;
-	}
-
-
 	public void setNumeroAula(Double numeroAula) {
 		this.numeroAula = numeroAula;
+	}
+
+	public String getNombreProfesor() {
+		return nombreProfesor;
 	}
 
 	public void setNombreProfesor(String nombreProfesor) {
 		this.nombreProfesor = nombreProfesor;
 	}
 
+	public LocalDateTime getFechaActual() {
+		return fechaActual;
+	}
+
+	public void setFechaActual(LocalDateTime fechaActual) {
+		this.fechaActual = fechaActual;
+	}
+
+	public String getDescripcionIncidencia() {
+		return descripcionIncidencia;
+	}
 
 	public void setDescripcionIncidencia(String descripcionIncidencia) {
 		this.descripcionIncidencia = descripcionIncidencia;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(descripcionIncidencia, fechaActual, nombreProfesor, numeroAula);
+	public boolean isCheck() {
+		return check;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		IncidenciaTic other = (IncidenciaTic) obj;
-		return Objects.equals(descripcionIncidencia, other.descripcionIncidencia)
-				&& Objects.equals(fechaActual, other.fechaActual)
-				&& Objects.equals(nombreProfesor, other.nombreProfesor) && Objects.equals(numeroAula, other.numeroAula);
+	public void setCheck(boolean check) {
+		this.check = check;
 	}
 
 	@Override
 	public String toString() {
-		return "incidenciaTic [numeroAula=" + numeroAula + ", nombreProfesor=" + nombreProfesor + ", fechaActual="
-				+ fechaActual + ", descripcionIncidencia=" + descripcionIncidencia + "]";
+		return "IncidenciaTic [id=" + id + ", numeroAula=" + numeroAula + ", nombreProfesor=" + nombreProfesor
+				+ ", fechaActual=" + fechaActual + ", descripcionIncidencia=" + descripcionIncidencia + ", check="
+				+ check + "]";
 	}
+
 	
 	
 
