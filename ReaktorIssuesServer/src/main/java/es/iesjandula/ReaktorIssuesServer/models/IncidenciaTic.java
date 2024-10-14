@@ -19,7 +19,7 @@ public class IncidenciaTic{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column (length=10, unique=true)
+	@Column (length=10)
 	private Double numeroAula;
 	
 	@Column (length=100)
@@ -35,8 +35,9 @@ public class IncidenciaTic{
 	private boolean pendiente;
 	
 	
-	
-	
+	public IncidenciaTic() {
+		
+	}
 
 	public IncidenciaTic(Double numeroAula, String nombreProfesor,
 			String descripcionIncidencia) {
