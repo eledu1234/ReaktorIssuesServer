@@ -1,5 +1,6 @@
 package es.iesjandula.ReaktorIssuesServer.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iesjandula.ReaktorIssuesServer.exceptions.IssuesServerException;
 import es.iesjandula.ReaktorIssuesServer.models.IncidenciaTic;
+import es.iesjandula.ReaktorIssuesServer.repository.IncidenciaRepository;
 
 
 
@@ -15,8 +17,8 @@ import es.iesjandula.ReaktorIssuesServer.models.IncidenciaTic;
 @RestController
 public class IncidenciasTicRestWeb {
 
-	final static int MAX_INCIDENCIAS = 1000;
-	IncidenciaTic[] arrayIncidencias = new IncidenciaTic[MAX_INCIDENCIAS];
+	@Autowired
+	private IncidenciaRepository incidenciaRepository;
 
 	public IncidenciasTicRestWeb() {
 
@@ -24,31 +26,15 @@ public class IncidenciasTicRestWeb {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/crear_incidencia", consumes = { "multipart/form-data" })
 	public ResponseEntity<?> insertarPorFormulario(
-				@ModelAttribute IncidenciaTic IncidenciaTic) {
+				@ModelAttribute IncidenciaTic incidenciaTic) {
 		try
 		{
 			
-		IncidenciaTic nuevaIncidenciaTic = new IncidenciaTic(
-				IncidenciaTic.getId(),
-				IncidenciaTic.getNumeroAula(),
-				IncidenciaTic.getNombreProfesor(),
-				IncidenciaTic.getFechaActual(),
-				IncidenciaTic.getDescripcionIncidencia(),
-				IncidenciaTic.isCheck());
+		IncidenciaTic nuevaIncidencia = incidenciaRepository.save(incidenciaTic);
 
-		int i = 0;
-		while (i < arrayIncidencias.length) {
+		
 
-			if (arrayIncidencias[i] != null) {
-				i++;
-			} else {
-				arrayIncidencias[i] = nuevaIncidenciaTic;
-
-			}
-		}
-		System.out.print(arrayIncidencias[i]);
-
-		return ResponseEntity.ok().body(nuevaIncidenciaTic);
+		return ResponseEntity.ok().body(nuevaIncidencia);
 		} 
 			catch (Exception exception)
 		{

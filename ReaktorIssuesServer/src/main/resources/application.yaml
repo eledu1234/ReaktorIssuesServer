@@ -4,15 +4,15 @@ spring:
   spring.jpa.hibernate.ddl-auto: validate
   datasource:
    driverClassName: com.mysql.cj.jdbc.Driver
-   url: jdbc:mysql://localhost:3306/universidad
+   url: jdbc:mysql://localhost:3306/reaktor?createDatabaseIfNotExist=true
    username: root
-   password: root
+   password: lyoko2
 
    hikari:
     connection-timeout: 60000
     maximum-pool-size: 5
 server:
-    port: 8081
+    port: 0
 logging:
     level:
          root: INFO

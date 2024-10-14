@@ -2,19 +2,12 @@ package es.iesjandula.ReaktorIssuesServer.models;
 
 import java.time.LocalDateTime;
 
-import java.util.Objects;
-
-import org.springframework.data.annotation.Id;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 @Entity
@@ -38,22 +31,21 @@ public class IncidenciaTic{
 	@Column (length=400)
 	private String descripcionIncidencia;
 	
-	@Column ()
-	private boolean check = false;
+	@Column (columnDefinition = "TINYINT(1)")
+	private boolean pendiente;
 	
 	
 	
 	
 
-	public IncidenciaTic(Integer id, Double numeroAula, String nombreProfesor, LocalDateTime fechaActual,
-			String descripcionIncidencia, boolean check) {
+	public IncidenciaTic(Double numeroAula, String nombreProfesor,
+			String descripcionIncidencia) {
 		super();
-		this.id = id;
 		this.numeroAula = numeroAula;
 		this.nombreProfesor = nombreProfesor;
 		this.fechaActual = LocalDateTime.now();
 		this.descripcionIncidencia = descripcionIncidencia;
-		this.check = false;
+		this.pendiente = true;
 	}
 
 	public Integer getId() {
@@ -96,19 +88,19 @@ public class IncidenciaTic{
 		this.descripcionIncidencia = descripcionIncidencia;
 	}
 
-	public boolean isCheck() {
-		return check;
+	public boolean isPendiente() {
+		return pendiente;
 	}
 
-	public void setCheck(boolean check) {
-		this.check = check;
+	public void setPendiente(boolean check) {
+		this.pendiente = check;
 	}
 
 	@Override
 	public String toString() {
 		return "IncidenciaTic [id=" + id + ", numeroAula=" + numeroAula + ", nombreProfesor=" + nombreProfesor
 				+ ", fechaActual=" + fechaActual + ", descripcionIncidencia=" + descripcionIncidencia + ", check="
-				+ check + "]";
+				+ pendiente + "]";
 	}
 
 	
