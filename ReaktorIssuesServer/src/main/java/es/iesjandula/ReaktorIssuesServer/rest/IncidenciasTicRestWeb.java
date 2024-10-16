@@ -1,5 +1,8 @@
 package es.iesjandula.ReaktorIssuesServer.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -50,6 +53,21 @@ public class IncidenciasTicRestWeb {
 			return ResponseEntity.status(500).body(issuesServerException.getMessage()) ;
 		}
 	}
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencia", consumes = {})
+	public ResponseEntity<?> mostrarIncidencias(
+			@ModelAttribute IncidenciaTic incidenciaTic) 
+	{
+		// Creacion de una lista para almacenar las incidencias no nulas
+	    List<IncidenciaTic> incidenciasList = new ArrayList<>();
+
+	    
+	      
+	    return ResponseEntity.ok(incidenciasList);		   
+	}
+
+
 	
 	@RequestMapping(method = RequestMethod.DELETE, value = "/borrar_incidencia", consumes = { "multipart/form-data" })
 	public ResponseEntity<?> borrarPorFormulario(@ModelAttribute IncidenciaTic incidenciaTic) 
