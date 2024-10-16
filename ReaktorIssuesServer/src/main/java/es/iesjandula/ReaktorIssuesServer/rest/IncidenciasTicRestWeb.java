@@ -2,18 +2,15 @@ package es.iesjandula.ReaktorIssuesServer.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import ch.qos.logback.core.model.processor.PhaseIndicator;
 import es.iesjandula.ReaktorIssuesServer.exceptions.IssuesServerException;
 import es.iesjandula.ReaktorIssuesServer.models.IncidenciaTic;
 import es.iesjandula.ReaktorIssuesServer.repository.IncidenciaRepository;
@@ -65,6 +62,97 @@ public class IncidenciasTicRestWeb {
 	    
 	      
 	    return ResponseEntity.ok(incidenciasList);		   
+	}
+	
+	
+	/**
+	 * metodo post para editar una incidencia ya creada
+	 * @param incidenciaTic
+	 * @return incidenciaActualizada incidrncia ya editada subida a la base de datos
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/editar_incidencia", consumes = { "multipart/form-data" })
+	public ResponseEntity<?> editarIncidencia(@ModelAttribute IncidenciaTic incidenciaTic) 
+	{
+	    try 
+	    {
+	    	//buscar la incidencia mediante su id
+	    	IncidenciaTic incidenciaActualizada = incidenciaRepository.findById(incidenciaTic.getId()).get();
+	    	
+	        // comprobar si la incidencia exite
+	        if (incidenciaRepository.findById(incidenciaTic.getId()) == null) 
+	        {
+	        	
+	            // actualizar los campos de la incidencia existente
+	            
+	            incidenciaActualizada.setNumeroAula(incidenciaTic.getNumeroAula());
+	            incidenciaActualizada.setNombreProfesor(incidenciaTic.getNombreProfesor());
+	            incidenciaActualizada.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
+	            incidenciaActualizada.setPendiente(incidenciaTic.isPendiente());
+
+	            // guardar la incidencia actualizada
+	            incidenciaRepository.save(incidenciaActualizada);
+	            
+	            
+	        } 
+	        return ResponseEntity.ok().body(incidenciaActualizada);
+	       
+	    } 
+	    catch (Exception exception) 
+	    {
+	        IssuesServerException issuesServerException = 
+	                new IssuesServerException(hashCode(), 
+	                                          "Error al editar la incidencia", exception);
+	        
+	        return ResponseEntity.status(500).body(issuesServerException.getMessage());
+	    }
+		
+	}
+	
+	
+	/**
+	 * metodo get para cambiar el atributo pendiente a false para confirmar que la incidencia ya esta cerrada
+	 * @param id
+	 * @return incidenciaActualizada con el atributo booleano pendiente false 
+	 */
+	@RequestMapping(method = RequestMethod.PUT, value = "/resolver_incidencia/{id}")
+	public ResponseEntity<?> resolverIncidencia(@PathVariable Integer id) 
+	{
+	    try 
+	    {
+	        // buscar la incidencia existente por su ID
+	        Optional<IncidenciaTic> incidenciaExistente = incidenciaRepository.findById(id);
+	    	
+	        IncidenciaTic incidenciaActualizada = incidenciaExistente.get();
+	        //miramos si la incidencia exite
+	        if (incidenciaExistente.isPresent()) 
+	        {
+	           
+	            
+	            // verificar si ya está resuelta
+	            if (!incidenciaActualizada.isPendiente()) 
+	            {
+	                return ResponseEntity.badRequest().body("La incidencia ya ha sido resuelta.");
+	            }
+	            
+	            // cambiar el estado de pendiente a false
+	            incidenciaActualizada.setPendiente(false);
+	            
+	            // guardar los cambios
+	            incidenciaRepository.save(incidenciaActualizada);
+	            
+	            
+	        } 
+	        return ResponseEntity.ok().body(incidenciaActualizada);
+	       
+	    } 
+	    catch (Exception exception)
+	    {
+	        IssuesServerException issuesServerException = 
+	                new IssuesServerException(hashCode(), 
+	                                          "Error al resolver la incidencia", exception);
+	        
+	        return ResponseEntity.status(500).body(issuesServerException.getMessage());
+	    }
 	}
 
 
