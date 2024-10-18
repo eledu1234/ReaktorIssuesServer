@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.iesjandula.ReaktorIssuesServer.exceptions.IssuesServerException;
 import es.iesjandula.ReaktorIssuesServer.models.IncidenciaTic;
 import es.iesjandula.ReaktorIssuesServer.repository.IncidenciaRepository;
+import es.iesjandula.ReaktorIssuesServer.utils.Costantes;
 
 
 
@@ -79,7 +80,7 @@ public class IncidenciasTicRestWeb {
 	    	IncidenciaTic incidenciaActualizada = incidenciaRepository.findById(incidenciaTic.getId()).get();
 	    	
 	        // comprobar si la incidencia exite
-	        if (incidenciaRepository.findById(incidenciaTic.getId()) == null) 
+	        if (incidenciaRepository.findById(incidenciaTic.getId()) != null) 
 	        {
 	        	
 	            // actualizar los campos de la incidencia existente
@@ -87,7 +88,7 @@ public class IncidenciasTicRestWeb {
 	            incidenciaActualizada.setNumeroAula(incidenciaTic.getNumeroAula());
 	            incidenciaActualizada.setNombreProfesor(incidenciaTic.getNombreProfesor());
 	            incidenciaActualizada.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
-	            incidenciaActualizada.setPendiente(incidenciaTic.isPendiente());
+	            incidenciaActualizada.setStatus(incidenciaTic.getStatus());
 
 	            // guardar la incidencia actualizada
 	            incidenciaRepository.save(incidenciaActualizada);
@@ -127,15 +128,14 @@ public class IncidenciasTicRestWeb {
 	        if (incidenciaExistente.isPresent()) 
 	        {
 	           
-	            
 	            // verificar si ya está resuelta
-	            if (!incidenciaActualizada.isPendiente()) 
+	            if (incidenciaActualizada.getStatus().equals(Costantes.STD_REALIZADO)) 
 	            {
 	                return ResponseEntity.badRequest().body("La incidencia ya ha sido resuelta.");
 	            }
 	            
 	            // cambiar el estado de pendiente a false
-	            incidenciaActualizada.setPendiente(false);
+	            incidenciaActualizada.setStatus(Costantes.STD_REALIZADO);
 	            
 	            // guardar los cambios
 	            incidenciaRepository.save(incidenciaActualizada);
@@ -161,16 +161,27 @@ public class IncidenciasTicRestWeb {
 	public ResponseEntity<?> borrarPorFormulario(@ModelAttribute IncidenciaTic incidenciaTic) 
 	{
 		try 
-		{
+		{			
+			 IncidenciaTic incidenciaABorrar= new IncidenciaTic();
+			 incidenciaABorrar= incidenciaRepository.getReferenceById(incidenciaTic.getId());
+			
+			if(incidenciaABorrar.getStatus().equals(Costantes.STD_PENDIENTE)) {
+				
 			incidenciaRepository.deleteById(incidenciaTic.getId());
+			
+			} else {
+				
+				return ResponseEntity.status(500).body("No puedes cancelarla porque ya no esta pendiente");
+			}
 			return ResponseEntity.ok().body("Incidencia con el id: " + incidenciaTic.getId() + " ha sido borrada correctamente");
+			
 			
 		} catch(Exception exception)
 		{
 			IssuesServerException issuesServerException = 
 					new IssuesServerException(hashCode(), "Error al borrar la incidencia " + incidenciaTic.getId(), exception);
 			
-			return ResponseEntity.status(500).body(issuesServerException.getMessage()) ;
+			return ResponseEntity.status(500).body(issuesServerException.getMessage());
 		}
 		
 	}

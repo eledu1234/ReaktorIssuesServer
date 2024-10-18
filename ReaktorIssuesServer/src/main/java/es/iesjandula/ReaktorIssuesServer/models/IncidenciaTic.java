@@ -2,6 +2,7 @@ package es.iesjandula.ReaktorIssuesServer.models;
 
 import java.time.LocalDateTime;
 
+import es.iesjandula.ReaktorIssuesServer.utils.Costantes;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,8 +32,8 @@ public class IncidenciaTic{
 	@Column (length=400)
 	private String descripcionIncidencia;
 	
-	@Column (columnDefinition = "TINYINT(1)")
-	private boolean pendiente;
+	@Column (length=15)
+	private String status=Costantes.STD_PENDIENTE;
 	
 	
 	public IncidenciaTic() {
@@ -46,7 +47,7 @@ public class IncidenciaTic{
 		this.nombreProfesor = nombreProfesor;
 		this.fechaActual = LocalDateTime.now();
 		this.descripcionIncidencia = descripcionIncidencia;
-		this.pendiente = true;
+		
 	}
 
 	public Integer getId() {
@@ -89,19 +90,19 @@ public class IncidenciaTic{
 		this.descripcionIncidencia = descripcionIncidencia;
 	}
 
-	public boolean isPendiente() {
-		return pendiente;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setPendiente(boolean check) {
-		this.pendiente = check;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override
 	public String toString() {
 		return "IncidenciaTic [id=" + id + ", numeroAula=" + numeroAula + ", nombreProfesor=" + nombreProfesor
-				+ ", fechaActual=" + fechaActual + ", descripcionIncidencia=" + descripcionIncidencia + ", check="
-				+ pendiente + "]";
+				+ ", fechaActual=" + fechaActual + ", descripcionIncidencia=" + descripcionIncidencia + ", status="
+				+ status + "]";
 	}
 
 	
