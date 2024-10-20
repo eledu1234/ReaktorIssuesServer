@@ -51,19 +51,19 @@ public class IssuesServerException extends Exception
 	 * Metodo que mapea el error para mostrarlo de forma ordenada al usuario
 	 * @return mapException con clave valor <String,String>
 	 */
-	public Map<String, String> StackTrace()
+	public Map<String, String> getBodyMesagge()
 	{
-		Map <String, String> mapException= new HashMap<String, String>();
+		Map <String, String> getBodyMesagge= new HashMap<String, String>();
 		
-		mapException.put("code", String.valueOf(code));
-		mapException.put("message", message);
+		getBodyMesagge.put("code", String.valueOf(code));
+		getBodyMesagge.put("message", message);
 		
 		if(this.exception != null)
 		{
 			String stackTrace = ExceptionUtils.getStackTrace(this.exception);
-			mapException.put("stackTrace", stackTrace);
+			getBodyMesagge.put("stackTrace", stackTrace);
 		}
-		return mapException;
+		return getBodyMesagge;
 	}
 	
 }

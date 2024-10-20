@@ -15,11 +15,13 @@ import es.iesjandula.ReaktorIssuesServer.exceptions.IssuesServerException;
 import es.iesjandula.ReaktorIssuesServer.models.IncidenciaTic;
 import es.iesjandula.ReaktorIssuesServer.repository.IncidenciaRepository;
 import es.iesjandula.ReaktorIssuesServer.utils.Costantes;
+import lombok.extern.log4j.Log4j2;
 
 
 
 @RequestMapping(value = "/incidenciasTic", produces = { "application/json" })
 @RestController
+@Log4j2
 public class IncidenciasTicRestWeb {
 
 	@Autowired
@@ -41,14 +43,14 @@ public class IncidenciasTicRestWeb {
 
 		return ResponseEntity.ok().body(nuevaIncidencia);
 		} 
-			catch (Exception exception)
+		catch(Exception exception)
 		{
-	        IssuesServerException issuesServerException = 
-	        		new IssuesServerException(hashCode(), 
-	        									"Error al crear la incidencia", exception) ;
-
+			 IssuesServerException  issuesServerException= new IssuesServerException(Costantes.STD_CODE_ERROR, 
+										 Costantes.STD_MESSAGE_ERROR + "crear incidencia", exception);
 			
-			return ResponseEntity.status(500).body(issuesServerException.getMessage()) ;
+			log.error(Costantes.STD_MESSAGE_ERROR + "crear incidencia", issuesServerException);
+			
+			return ResponseEntity.status(500).body(issuesServerException.getBodyMesagge());
 		}
 	}
 	
@@ -86,26 +88,40 @@ public class IncidenciasTicRestWeb {
 	            // actualizar los campos de la incidencia existente
 	            
 	            incidenciaActualizada.setNumeroAula(incidenciaTic.getNumeroAula());
-	            incidenciaActualizada.setNombreProfesor(incidenciaTic.getNombreProfesor());
-	            incidenciaActualizada.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
-	            incidenciaActualizada.setStatus(incidenciaTic.getStatus());
-
 	            // guardar la incidencia actualizada
 	            incidenciaRepository.save(incidenciaActualizada);
-	            
-	            
-	        } 
+	        }
+	        if (incidenciaRepository.findById(incidenciaTic.getId()) != null) 
+	        {
+	            incidenciaActualizada.setNombreProfesor(incidenciaTic.getNombreProfesor());
+	            // guardar la incidencia actualizada
+	            incidenciaRepository.save(incidenciaActualizada);
+	        }
+	        if (incidenciaRepository.findById(incidenciaTic.getId()) != null) 
+	        {
+	            incidenciaActualizada.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
+	            // guardar la incidencia actualizada
+	            incidenciaRepository.save(incidenciaActualizada);
+	        }
+	        if (incidenciaRepository.findById(incidenciaTic.getId()) != null) 
+	        {
+	            incidenciaActualizada.setStatus(incidenciaTic.getStatus());
+	            // guardar la incidencia actualizada
+	            incidenciaRepository.save(incidenciaActualizada);
+	        }
+
 	        return ResponseEntity.ok().body(incidenciaActualizada);
 	       
 	    } 
-	    catch (Exception exception) 
-	    {
-	        IssuesServerException issuesServerException = 
-	                new IssuesServerException(hashCode(), 
-	                                          "Error al editar la incidencia", exception);
-	        
-	        return ResponseEntity.status(500).body(issuesServerException.getMessage());
-	    }
+	    catch(Exception exception)
+		{
+			 IssuesServerException  issuesServerException= new IssuesServerException(Costantes.STD_CODE_ERROR, 
+										 Costantes.STD_MESSAGE_ERROR + "editar incidencia", exception);
+			
+			log.error(Costantes.STD_MESSAGE_ERROR + "editar incidencia", issuesServerException);
+			
+			return ResponseEntity.status(500).body(issuesServerException.getBodyMesagge());
+		}
 		
 	}
 	
@@ -145,14 +161,15 @@ public class IncidenciasTicRestWeb {
 	        return ResponseEntity.ok().body(incidenciaActualizada);
 	       
 	    } 
-	    catch (Exception exception)
-	    {
-	        IssuesServerException issuesServerException = 
-	                new IssuesServerException(hashCode(), 
-	                                          "Error al resolver la incidencia", exception);
-	        
-	        return ResponseEntity.status(500).body(issuesServerException.getMessage());
-	    }
+	    catch(Exception exception)
+		{
+			 IssuesServerException  issuesServerException= new IssuesServerException(Costantes.STD_CODE_ERROR, 
+										 Costantes.STD_MESSAGE_ERROR + "checkear incidencia", exception);
+			
+			log.error(Costantes.STD_MESSAGE_ERROR + "checkear incidencia", issuesServerException);
+			
+			return ResponseEntity.status(500).body(issuesServerException.getBodyMesagge());
+		}
 	}
 
 
@@ -178,10 +195,12 @@ public class IncidenciasTicRestWeb {
 			
 		} catch(Exception exception)
 		{
-			IssuesServerException issuesServerException = 
-					new IssuesServerException(hashCode(), "Error al borrar la incidencia " + incidenciaTic.getId(), exception);
+			 IssuesServerException  issuesServerException= new IssuesServerException(Costantes.STD_CODE_ERROR, 
+										 Costantes.STD_MESSAGE_ERROR + "borrar incidencia", exception);
 			
-			return ResponseEntity.status(500).body(issuesServerException.getMessage());
+			log.error(Costantes.STD_MESSAGE_ERROR + "borrar incidencia", issuesServerException);
+			
+			return ResponseEntity.status(500).body(issuesServerException.getBodyMesagge());
 		}
 		
 	}
