@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bab4d7c4-d97a-4f1e-95d2-5895e0e01388",
+		"_postman_id": "8e4898dc-e05e-474a-aa1c-667924935757",
 		"name": "incidenciasTic",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "38446658"
@@ -138,6 +138,26 @@
 						"incidenciasTic",
 						"resolver_incidencia",
 						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MOSTRAR",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/incidenciasTic/mostrar_incidencias",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"incidenciasTic",
+						"mostrar_incidencias"
 					]
 				}
 			},

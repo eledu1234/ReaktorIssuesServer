@@ -1,6 +1,7 @@
 package es.iesjandula.ReaktorIssuesServer.rest;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,16 +56,31 @@ public class IncidenciasTicRestWeb {
 	}
 	
 	
-	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencia", consumes = {})
+	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencias", consumes = {})
 	public ResponseEntity<?> mostrarIncidencias(
 			@ModelAttribute IncidenciaTic incidenciaTic) 
 	{
-		// Creacion de una lista para almacenar las incidencias no nulas
-	    List<IncidenciaTic> incidenciasList = new ArrayList<>();
+		try 
+		{
+			
+			// Creacion de una lista para almacenar las incidencias no nulas
+		    List<IncidenciaTic> incidenciasList = new ArrayList<>();
 
-	    
-	      
-	    return ResponseEntity.ok(incidenciasList);		   
+			incidenciasList= incidenciaRepository.findAll();
+		      
+		    return ResponseEntity.ok(incidenciasList);	
+		}
+		
+		catch(Exception exception)
+		{
+			 IssuesServerException  issuesServerException= new IssuesServerException(Costantes.STD_CODE_ERROR, 
+										 Costantes.STD_MESSAGE_ERROR + "crear incidencia", exception);
+			
+			log.error(Costantes.STD_MESSAGE_ERROR + "crear incidencia", issuesServerException);
+			
+			return ResponseEntity.status(500).body(issuesServerException.getBodyMesagge());
+		}
+			   
 	}
 	
 	
@@ -176,18 +192,20 @@ public class IncidenciasTicRestWeb {
 
 	
 	@RequestMapping(method = RequestMethod.DELETE, value = "/borrar_incidencia", consumes = { "multipart/form-data" })
-	public ResponseEntity<?> borrarPorFormulario(@ModelAttribute IncidenciaTic incidenciaTic) 
+	public ResponseEntity<?> cancelarYBorrarPorFormulario(@ModelAttribute IncidenciaTic incidenciaTic) 
 	{
 		try 
 		{			
 			 IncidenciaTic incidenciaABorrar= new IncidenciaTic();
 			 incidenciaABorrar= incidenciaRepository.getReferenceById(incidenciaTic.getId());
 			
-			if(incidenciaABorrar.getStatus().equals(Costantes.STD_PENDIENTE)) {
+			if(incidenciaABorrar.getStatus().equals(Costantes.STD_PENDIENTE)) 
+			{
 				
 			incidenciaRepository.deleteById(incidenciaTic.getId());
 			
-			} else {
+			} else 
+			{
 				
 				return ResponseEntity.status(500).body("No puedes cancelarla porque ya no esta pendiente");
 			}
