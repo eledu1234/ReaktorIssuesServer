@@ -81,38 +81,39 @@ public class IncidenciasTicRestWeb {
 	    	//buscar la incidencia mediante su id
 	    	IncidenciaTic incidenciaActualizada = incidenciaRepository.findById(incidenciaTic.getId()).get();
 	    	
-	        // comprobar si la incidencia exite
-	        if (incidenciaRepository.findById(incidenciaTic.getId()) != null) 
-	        {
-	        	
-	            // actualizar los campos de la incidencia existente
-	            
-	            incidenciaActualizada.setNumeroAula(incidenciaTic.getNumeroAula());
-	            // guardar la incidencia actualizada
-	            incidenciaRepository.save(incidenciaActualizada);
-	        }
-	        if (incidenciaRepository.findById(incidenciaTic.getId()) != null) 
-	        {
-	            incidenciaActualizada.setNombreProfesor(incidenciaTic.getNombreProfesor());
-	            // guardar la incidencia actualizada
-	            incidenciaRepository.save(incidenciaActualizada);
-	        }
-	        if (incidenciaRepository.findById(incidenciaTic.getId()) != null) 
-	        {
-	            incidenciaActualizada.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
-	            // guardar la incidencia actualizada
-	            incidenciaRepository.save(incidenciaActualizada);
-	        }
-	        if (incidenciaRepository.findById(incidenciaTic.getId()) != null) 
-	        {
-	            incidenciaActualizada.setStatus(incidenciaTic.getStatus());
-	            // guardar la incidencia actualizada
-	            incidenciaRepository.save(incidenciaActualizada);
-	        }
+	    	if(incidenciaRepository.findById(incidenciaTic.getId()) != null)
+	    	{
+	    	
+		        if (incidenciaTic.getNumeroAula() != null) 
+		        {
+		        	
+		            
+		            incidenciaActualizada.setNumeroAula(incidenciaTic.getNumeroAula());
+		            // comprobar el nuemro de aula y actualizarlo
+		            incidenciaRepository.save(incidenciaActualizada);
+		        }
+		        if (incidenciaTic.getNombreProfesor() != null) 
+		        {
+		            incidenciaActualizada.setNombreProfesor(incidenciaTic.getNombreProfesor());
+		            // comprobar el nombre del profesor y actualizarlo
+		            incidenciaRepository.save(incidenciaActualizada);
+		        }
+		        if (incidenciaTic.getDescripcionIncidencia() != null) 
+		        {
+		            incidenciaActualizada.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
+		            // comprobar la descripcion de la incidencia  y actualizarlo
+		            incidenciaRepository.save(incidenciaActualizada);
+		        }
+		        if (incidenciaTic.getStatus() != null) 
+		        {
+		            incidenciaActualizada.setStatus(incidenciaTic.getStatus());
+		            // comprobar el estado de la incicdencia y actualizarlo
+		            incidenciaRepository.save(incidenciaActualizada);
+		        }
 
-	        return ResponseEntity.ok().body(incidenciaActualizada);
-	       
-	    } 
+	    	}
+	    	return ResponseEntity.ok().body(incidenciaActualizada);
+	    }
 	    catch(Exception exception)
 		{
 			 IssuesServerException  issuesServerException= new IssuesServerException(Costantes.STD_CODE_ERROR, 
