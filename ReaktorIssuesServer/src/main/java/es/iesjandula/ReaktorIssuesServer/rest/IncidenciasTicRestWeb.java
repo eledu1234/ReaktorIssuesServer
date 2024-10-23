@@ -31,17 +31,22 @@ public class IncidenciasTicRestWeb {
 	public IncidenciasTicRestWeb() {
 
 	}
-
+	/**
+	 * metodo post para registrar una incidencia
+	 * @param incidenciaTic
+	 * @return nuevaIncidencia
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/crear_incidencia", consumes = { "multipart/form-data" })
 	public ResponseEntity<?> insertarPorFormulario(
 				@ModelAttribute IncidenciaTic incidenciaTic) {
 		try
 		{
-			
+		
+			// creamos una nueva incidencia y la guardamos 
 		IncidenciaTic nuevaIncidencia = incidenciaRepository.save(incidenciaTic);
 
 		
-
+		//devolvemos incidencia
 		return ResponseEntity.ok().body(nuevaIncidencia);
 		} 
 		catch(Exception exception)
@@ -55,7 +60,11 @@ public class IncidenciasTicRestWeb {
 		}
 	}
 	
-	
+	/**
+	 * metodo para mostrar todas las incidencias
+	 * @param incidenciaTic
+	 * @return incidenciasList
+	 */
 	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencias", consumes = {})
 	public ResponseEntity<?> mostrarIncidencias(
 			@ModelAttribute IncidenciaTic incidenciaTic) 
@@ -65,18 +74,50 @@ public class IncidenciasTicRestWeb {
 			
 			// Creacion de una lista para almacenar las incidencias no nulas
 		    List<IncidenciaTic> incidenciasList = new ArrayList<>();
-
+		    //encontramos todas las incidencias y la metemos en la lista
 			incidenciasList= incidenciaRepository.findAll();
-		      
+		    // devolvemos la lista de incidencias
 		    return ResponseEntity.ok(incidenciasList);	
 		}
 		
 		catch(Exception exception)
 		{
 			 IssuesServerException  issuesServerException= new IssuesServerException(Costantes.STD_CODE_ERROR, 
-										 Costantes.STD_MESSAGE_ERROR + "crear incidencia", exception);
+										 Costantes.STD_MESSAGE_ERROR + "motrar incidencia", exception);
 			
-			log.error(Costantes.STD_MESSAGE_ERROR + "crear incidencia", issuesServerException);
+			log.error(Costantes.STD_MESSAGE_ERROR + " mostrar las incidencias", issuesServerException);
+			
+			return ResponseEntity.status(500).body(issuesServerException.getBodyMesagge());
+		}
+			   
+	}
+	
+	
+	/**
+	 * metodo para mostrar una incidencia especifica
+	 * @param incidenciaTic
+	 * @return incidenciaABuscar
+	 */
+	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencias", consumes = {})
+	public ResponseEntity<?> mostrarIncidenciasPoId(
+			@ModelAttribute IncidenciaTic incidenciaTic) 
+	{
+		try 
+		{
+			//buscamos incidencia por id
+			IncidenciaTic incidenciaABuscar = incidenciaRepository.findById(incidenciaTic.getId()).get();
+		    
+			
+		    // devolvemos incidenciaABuscar
+		    return ResponseEntity.ok(incidenciaABuscar);	
+		}
+		
+		catch(Exception exception)
+		{
+			 IssuesServerException  issuesServerException= new IssuesServerException(Costantes.STD_CODE_ERROR, 
+										 Costantes.STD_MESSAGE_ERROR + "mostrar incidencia", exception);
+			
+			log.error(Costantes.STD_MESSAGE_ERROR + " mostrar incidencias", issuesServerException);
 			
 			return ResponseEntity.status(500).body(issuesServerException.getBodyMesagge());
 		}
@@ -128,6 +169,7 @@ public class IncidenciasTicRestWeb {
 		        }
 
 	    	}
+	    	//devolvemos incidenciaActualizada
 	    	return ResponseEntity.ok().body(incidenciaActualizada);
 	    }
 	    catch(Exception exception)
@@ -175,6 +217,7 @@ public class IncidenciasTicRestWeb {
 	            
 	            
 	        } 
+	        //devolvemos incidenciaActualizada
 	        return ResponseEntity.ok().body(incidenciaActualizada);
 	       
 	    } 
@@ -190,25 +233,32 @@ public class IncidenciasTicRestWeb {
 	}
 
 
-	
+	/**
+	 * metodo delete para borrar o cancelar una incidencia estando pendiente
+	 * @param incidenciaTic
+	 * @return incidenciaABorrar
+	 */
 	@RequestMapping(method = RequestMethod.DELETE, value = "/borrar_incidencia", consumes = { "multipart/form-data" })
 	public ResponseEntity<?> cancelarYBorrarPorFormulario(@ModelAttribute IncidenciaTic incidenciaTic) 
 	{
 		try 
 		{			
+			//creamos una icidencia a borrar
 			 IncidenciaTic incidenciaABorrar= new IncidenciaTic();
+			 //buscamos la incidencia por id y se la aignamos a incidenciaABorrar
 			 incidenciaABorrar= incidenciaRepository.getReferenceById(incidenciaTic.getId());
-			
+			//comprobamos si la incidencia esta pendiente
 			if(incidenciaABorrar.getStatus().equals(Costantes.STD_PENDIENTE)) 
 			{
-				
+			//se borra por id
 			incidenciaRepository.deleteById(incidenciaTic.getId());
 			
 			} else 
 			{
-				
+				//controlamos si no esta pendiente
 				return ResponseEntity.status(500).body("No puedes cancelarla porque ya no esta pendiente");
 			}
+			//devolvemos incidenciaABorrar
 			return ResponseEntity.ok().body("Incidencia con el id: " + incidenciaTic.getId() + " ha sido borrada correctamente");
 			
 			

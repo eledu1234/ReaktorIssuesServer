@@ -15,31 +15,63 @@ import jakarta.persistence.Table;
 @Table(name="incidencia")
 public class IncidenciaTic{
 	
+	/**
+	 * atributo unico id para identifica incidencia
+	 */
 	@Id
 	@Column (length=10)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	/**
+	 * atributo para registrar el numero de aula
+	 */
 	@Column (length=10)
 	private Double numeroAula;
 	
+	/**
+	 * atributo para registrar el nombre del profesor
+	 */
+
 	@Column (length=100)
 	private String nombreProfesor;
 	
+	/**
+	 * atributo para registrar la fecha y hora
+	 */
+
 	@Column(nullable = false)
 	private LocalDateTime fechaActual = LocalDateTime.now();
 	
+	/**
+	 * atributo para regitrar la descripccion de la incidencia
+	 */
+
 	@Column (length=400)
 	private String descripcionIncidencia;
+	
+	/**
+	 * atributo para identificar si esta resuelta
+	 */
+
 	
 	@Column (length=15)
 	private String status=Costantes.STD_PENDIENTE;
 	
 	
+	/**
+	 * contructor vacio
+	 */
 	public IncidenciaTic() {
 		
 	}
 
+	/**
+	 * constructor de la clase IncidenciaTic
+	 * @param numeroAula
+	 * @param nombreProfesor
+	 * @param descripcionIncidencia
+	 */
 	public IncidenciaTic(Double numeroAula, String nombreProfesor,
 			String descripcionIncidencia) {
 		super();
@@ -49,7 +81,11 @@ public class IncidenciaTic{
 		this.descripcionIncidencia = descripcionIncidencia;
 		
 	}
-
+	/**
+	 * getters y setters de la clase IncidenciaTic
+	 * 
+	 */
+		
 	public Integer getId() {
 		return id;
 	}
@@ -97,7 +133,11 @@ public class IncidenciaTic{
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
+	
+	
+	/**
+	 * metodo toString para mostrar el objeto
+	 */
 	@Override
 	public String toString() {
 		return "IncidenciaTic [id=" + id + ", numeroAula=" + numeroAula + ", nombreProfesor=" + nombreProfesor

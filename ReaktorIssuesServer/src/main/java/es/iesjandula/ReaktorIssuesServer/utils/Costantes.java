@@ -1,7 +1,9 @@
 package es.iesjandula.ReaktorIssuesServer.utils;
 
 public class Costantes {
-	
+	/**
+	 * constantes para mostrar estado y errores
+	 */
 	public static final String STD_PENDIENTE = "Pendiente";
 	public static final String STD_REALIZADO = "Realizado";
 	public static final String STD_ERROR = "Error";
