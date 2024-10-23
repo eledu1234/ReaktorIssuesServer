@@ -98,7 +98,7 @@ public class IncidenciasTicRestWeb {
 	 * @param incidenciaTic
 	 * @return incidenciaABuscar
 	 */
-	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencias", consumes = {})
+	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencia", consumes = {})
 	public ResponseEntity<?> mostrarIncidenciasPoId(
 			@ModelAttribute IncidenciaTic incidenciaTic) 
 	{

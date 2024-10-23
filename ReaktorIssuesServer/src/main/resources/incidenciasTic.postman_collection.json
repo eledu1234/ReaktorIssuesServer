@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "8e4898dc-e05e-474a-aa1c-667924935757",
+		"_postman_id": "b32e144b-3679-4432-8acb-00a141a0dc45",
 		"name": "incidenciasTic",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38446658"
+		"_exporter_id": "38431175"
 	},
 	"item": [
 		{
@@ -55,7 +55,7 @@
 					"formdata": [
 						{
 							"key": "Id",
-							"value": "8",
+							"value": "1",
 							"type": "text"
 						},
 						{
@@ -89,7 +89,7 @@
 					"formdata": [
 						{
 							"key": "Id",
-							"value": "13",
+							"value": "1",
 							"type": "text"
 						}
 					]
@@ -118,18 +118,20 @@
 					"formdata": [
 						{
 							"key": "Id",
-							"value": "8",
-							"type": "text"
+							"value": "2",
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "NumeroAula",
-							"value": "2.4",
-							"type": "text"
+							"value": "",
+							"type": "text",
+							"disabled": true
 						}
 					]
 				},
 				"url": {
-					"raw": "localHost:8081/incidenciasTic/resolver_incidencia/15",
+					"raw": "localHost:8081/incidenciasTic/resolver_incidencia/1",
 					"host": [
 						"localHost"
 					],
@@ -137,7 +139,7 @@
 					"path": [
 						"incidenciasTic",
 						"resolver_incidencia",
-						"15"
+						"1"
 					]
 				}
 			},
@@ -158,6 +160,39 @@
 					"path": [
 						"incidenciasTic",
 						"mostrar_incidencias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MOSTRAR POR ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8081/incidenciasTic/mostrar_incidencia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"incidenciasTic",
+						"mostrar_incidencia"
 					]
 				}
 			},
