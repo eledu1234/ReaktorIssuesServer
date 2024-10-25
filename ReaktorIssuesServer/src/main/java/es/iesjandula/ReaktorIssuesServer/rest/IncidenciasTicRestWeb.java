@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,9 +66,9 @@ public class IncidenciasTicRestWeb {
 	 * @param incidenciaTic
 	 * @return incidenciasList
 	 */
-	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencias", consumes = {})
+	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencias")
 	public ResponseEntity<?> mostrarIncidencias(
-			@ModelAttribute IncidenciaTic incidenciaTic) 
+			@RequestBody IncidenciaTic incidenciaTic) 
 	{
 		try 
 		{
@@ -98,9 +99,9 @@ public class IncidenciasTicRestWeb {
 	 * @param incidenciaTic
 	 * @return incidenciaABuscar
 	 */
-	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencia", consumes = {})
+	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencia")
 	public ResponseEntity<?> mostrarIncidenciasPoId(
-			@ModelAttribute IncidenciaTic incidenciaTic) 
+			@RequestBody IncidenciaTic incidenciaTic) 
 	{
 		try 
 		{
@@ -131,7 +132,7 @@ public class IncidenciasTicRestWeb {
 	 * @return incidenciaActualizada incidrncia ya editada subida a la base de datos
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/editar_incidencia", consumes = { "multipart/form-data" })
-	public ResponseEntity<?> editarIncidencia(@ModelAttribute IncidenciaTic incidenciaTic) 
+	public ResponseEntity<?> editarIncidencia(@RequestBody IncidenciaTic incidenciaTic) 
 	{
 	    try 
 	    {
