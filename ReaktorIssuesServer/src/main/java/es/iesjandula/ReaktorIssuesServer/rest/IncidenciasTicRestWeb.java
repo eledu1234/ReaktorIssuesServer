@@ -24,12 +24,14 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping(value = "/incidenciasTic", produces = { "application/json" })
 @RestController
 @Log4j2
-public class IncidenciasTicRestWeb {
+public class IncidenciasTicRestWeb 
+{
 
 	@Autowired
 	private IncidenciaRepository incidenciaRepository;
 
-	public IncidenciasTicRestWeb() {
+	public IncidenciasTicRestWeb() 
+	{
 
 	}
 	/**
@@ -39,7 +41,8 @@ public class IncidenciasTicRestWeb {
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/crear_incidencia", consumes = { "multipart/form-data" })
 	public ResponseEntity<?> insertarPorFormulario(
-				@ModelAttribute IncidenciaTic incidenciaTic) {
+				@ModelAttribute IncidenciaTic incidenciaTic) 
+	{
 		try
 		{
 		
