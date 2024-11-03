@@ -1,4 +1,4 @@
-package es.iesjandula.ReaktorIssuesServer.exceptions;
+package es.iesjandula.reaktor_Issues_Server.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;

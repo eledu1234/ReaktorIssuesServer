@@ -1,8 +1,8 @@
-package es.iesjandula.ReaktorIssuesServer.models;
+package es.iesjandula.reaktor_Issues_Server.models;
 
 import java.time.LocalDateTime;
 
-import es.iesjandula.ReaktorIssuesServer.utils.Costantes;
+import es.iesjandula.reaktor_Issues_Server.utils.Costantes;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,8 +26,8 @@ public class IncidenciaTic{
 	/**
 	 * atributo para registrar el numero de aula
 	 */
-	@Column (length=10)
-	private Double numeroAula;
+	@Column (length=30)
+	private String numeroAula;
 	
 	/**
 	 * atributo para registrar el nombre del profesor
@@ -41,12 +41,19 @@ public class IncidenciaTic{
 	 */
 
 	@Column(nullable = false)
-	private LocalDateTime fechaActual = LocalDateTime.now();
+	private LocalDateTime fechaActual;
 	
 	/**
 	 * atributo para regitrar la descripccion de la incidencia
 	 */
 
+	@Column (length=15)
+	private String tipo;
+	
+	/**
+	 * contructor vacio
+	 */
+	
 	@Column (length=400)
 	private String descripcionIncidencia;
 	
@@ -56,7 +63,7 @@ public class IncidenciaTic{
 
 	
 	@Column (length=15)
-	private String status=Costantes.STD_PENDIENTE;
+	private String status;
 	
 	
 	/**
@@ -72,13 +79,15 @@ public class IncidenciaTic{
 	 * @param nombreProfesor
 	 * @param descripcionIncidencia
 	 */
-	public IncidenciaTic(Double numeroAula, String nombreProfesor,
+	public IncidenciaTic(String numeroAula, String nombreProfesor, String tipo,
 			String descripcionIncidencia) {
 		super();
 		this.numeroAula = numeroAula;
 		this.nombreProfesor = nombreProfesor;
 		this.fechaActual = LocalDateTime.now();
+		this.tipo = tipo;
 		this.descripcionIncidencia = descripcionIncidencia;
+		this.status =Costantes.STD_PENDIENTE;
 		
 	}
 	/**
@@ -94,11 +103,11 @@ public class IncidenciaTic{
 		this.id = id;
 	}
 
-	public Double getNumeroAula() {
+	public String getNumeroAula() {
 		return numeroAula;
 	}
 
-	public void setNumeroAula(Double numeroAula) {
+	public void setNumeroAula(String numeroAula) {
 		this.numeroAula = numeroAula;
 	}
 
@@ -116,6 +125,14 @@ public class IncidenciaTic{
 
 	public void setFechaActual(LocalDateTime fechaActual) {
 		this.fechaActual = fechaActual;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public String getDescripcionIncidencia() {

@@ -1,27 +1,26 @@
-package es.iesjandula.ReaktorIssuesServer.rest;
+package es.iesjandula.reaktor_Issues_Server.rest;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import es.iesjandula.ReaktorIssuesServer.exceptions.IssuesServerException;
-import es.iesjandula.ReaktorIssuesServer.models.IncidenciaTic;
-import es.iesjandula.ReaktorIssuesServer.repository.IncidenciaRepository;
-import es.iesjandula.ReaktorIssuesServer.utils.Costantes;
+
+import es.iesjandula.reaktor_Issues_Server.exceptions.IssuesServerException;
+import es.iesjandula.reaktor_Issues_Server.models.IncidenciaTic;
+import es.iesjandula.reaktor_Issues_Server.repository.IncidenciaRepository;
+import es.iesjandula.reaktor_Issues_Server.utils.Costantes;
 import lombok.extern.log4j.Log4j2;
 
 
 
-@RequestMapping(value = "/incidenciasTic", produces = { "application/json" })
+@RequestMapping(value = "/incidenciasTic")
 @RestController
 @Log4j2
 public class IncidenciasTicRestWeb 
@@ -39,15 +38,15 @@ public class IncidenciasTicRestWeb
 	 * @param incidenciaTic
 	 * @return nuevaIncidencia
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/crear_incidencia", consumes = { "multipart/form-data" })
+	@RequestMapping(method = RequestMethod.POST, value = "/crear_incidencia")
 	public ResponseEntity<?> insertarPorFormulario(
-				@ModelAttribute IncidenciaTic incidenciaTic) 
+				@RequestBody IncidenciaTic incidenciaTic) 
 	{
 		try
 		{
 		
 			// creamos una nueva incidencia y la guardamos 
-		IncidenciaTic nuevaIncidencia = incidenciaRepository.save(incidenciaTic);
+		IncidenciaTic nuevaIncidencia = incidenciaRepository.saveAndFlush(incidenciaTic);
 
 		
 		//devolvemos incidencia
@@ -134,7 +133,7 @@ public class IncidenciasTicRestWeb
 	 * @param incidenciaTic
 	 * @return incidenciaActualizada incidrncia ya editada subida a la base de datos
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/editar_incidencia", consumes = { "multipart/form-data" })
+	@RequestMapping(method = RequestMethod.POST, value = "/editar_incidencia")
 	public ResponseEntity<?> editarIncidencia(@RequestBody IncidenciaTic incidenciaTic) 
 	{
 	    try 
@@ -151,27 +150,27 @@ public class IncidenciasTicRestWeb
 		            
 		            incidenciaActualizada.setNumeroAula(incidenciaTic.getNumeroAula());
 		            // comprobar el nuemro de aula y actualizarlo
-		            incidenciaRepository.save(incidenciaActualizada);
+		            
 		        }
 		        if (incidenciaTic.getNombreProfesor() != null) 
 		        {
 		            incidenciaActualizada.setNombreProfesor(incidenciaTic.getNombreProfesor());
 		            // comprobar el nombre del profesor y actualizarlo
-		            incidenciaRepository.save(incidenciaActualizada);
+		            
 		        }
 		        if (incidenciaTic.getDescripcionIncidencia() != null) 
 		        {
 		            incidenciaActualizada.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
 		            // comprobar la descripcion de la incidencia  y actualizarlo
-		            incidenciaRepository.save(incidenciaActualizada);
+		            
 		        }
 		        if (incidenciaTic.getStatus() != null) 
 		        {
 		            incidenciaActualizada.setStatus(incidenciaTic.getStatus());
 		            // comprobar el estado de la incicdencia y actualizarlo
-		            incidenciaRepository.save(incidenciaActualizada);
+		            
 		        }
-
+		        incidenciaRepository.saveAndFlush(incidenciaActualizada); //con uno basta
 	    	}
 	    	//devolvemos incidenciaActualizada
 	    	return ResponseEntity.ok().body(incidenciaActualizada);
@@ -217,7 +216,7 @@ public class IncidenciasTicRestWeb
 	            incidenciaActualizada.setStatus(Costantes.STD_REALIZADO);
 	            
 	            // guardar los cambios
-	            incidenciaRepository.save(incidenciaActualizada);
+	            incidenciaRepository.saveAndFlush(incidenciaActualizada);
 	            
 	            
 	        } 
@@ -242,8 +241,8 @@ public class IncidenciasTicRestWeb
 	 * @param incidenciaTic
 	 * @return incidenciaABorrar
 	 */
-	@RequestMapping(method = RequestMethod.DELETE, value = "/borrar_incidencia", consumes = { "multipart/form-data" })
-	public ResponseEntity<?> cancelarYBorrarPorFormulario(@ModelAttribute IncidenciaTic incidenciaTic) 
+	@RequestMapping(method = RequestMethod.DELETE, value = "/borrar_incidencia")
+	public ResponseEntity<?> cancelarYBorrarPorFormulario(@RequestBody IncidenciaTic incidenciaTic) 
 	{
 		try 
 		{			
