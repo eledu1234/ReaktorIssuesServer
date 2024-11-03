@@ -1,8 +1,6 @@
 package es.iesjandula.reaktor_Issues_Server.dto;
 
 import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

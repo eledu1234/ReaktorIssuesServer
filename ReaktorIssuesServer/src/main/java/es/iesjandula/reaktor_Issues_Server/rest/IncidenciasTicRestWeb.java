@@ -1,5 +1,6 @@
 package es.iesjandula.reaktor_Issues_Server.rest;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.iesjandula.reaktor_Issues_Server.dto.DtoIncidencia;
 import es.iesjandula.reaktor_Issues_Server.exceptions.IssuesServerException;
 import es.iesjandula.reaktor_Issues_Server.models.IncidenciaTic;
 import es.iesjandula.reaktor_Issues_Server.repository.IncidenciaRepository;
@@ -40,13 +42,20 @@ public class IncidenciasTicRestWeb
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/crear_incidencia")
 	public ResponseEntity<?> insertarPorFormulario(
-				@RequestBody IncidenciaTic incidenciaTic) 
+				@RequestBody DtoIncidencia incidenciaTic) 
 	{
 		try
 		{
-		
+			
+			
 			// creamos una nueva incidencia y la guardamos 
-		IncidenciaTic nuevaIncidencia = incidenciaRepository.saveAndFlush(incidenciaTic);
+		IncidenciaTic nuevaIncidencia = new IncidenciaTic();
+		
+		nuevaIncidencia.setNumeroAula(incidenciaTic.getNumeroAula());
+		nuevaIncidencia.setNombreProfesor(incidenciaTic.getNombreProfesor());
+		nuevaIncidencia.setTipo(incidenciaTic.getTipo());
+		nuevaIncidencia.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
+		incidenciaRepository.saveAndFlush(nuevaIncidencia);
 
 		
 		//devolvemos incidencia
@@ -103,12 +112,15 @@ public class IncidenciasTicRestWeb
 	 */
 	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencia")
 	public ResponseEntity<?> mostrarIncidenciasPoId(
-			@RequestBody IncidenciaTic incidenciaTic) 
+			@RequestBody DtoIncidencia incidenciaTic) 
 	{
 		try 
 		{
+			IncidenciaTic incidenciaABuscar = new IncidenciaTic();
+			
+			incidenciaABuscar.setId(incidenciaTic.getId());
 			//buscamos incidencia por id
-			IncidenciaTic incidenciaABuscar = incidenciaRepository.findById(incidenciaTic.getId()).get();
+			incidenciaRepository.findById(incidenciaABuscar.getId()).get();
 		    
 			
 		    // devolvemos incidenciaABuscar
@@ -134,39 +146,48 @@ public class IncidenciasTicRestWeb
 	 * @return incidenciaActualizada incidrncia ya editada subida a la base de datos
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/editar_incidencia")
-	public ResponseEntity<?> editarIncidencia(@RequestBody IncidenciaTic incidenciaTic) 
+	public ResponseEntity<?> editarIncidencia(@RequestBody DtoIncidencia incidenciaTic) 
 	{
 	    try 
 	    {
-	    	//buscar la incidencia mediante su id
-	    	IncidenciaTic incidenciaActualizada = incidenciaRepository.findById(incidenciaTic.getId()).get();
+	    	IncidenciaTic incidenciaAEditar = new IncidenciaTic();
+			
+	    	incidenciaAEditar.setId(incidenciaTic.getId());
+	    	incidenciaAEditar.setNumeroAula(incidenciaTic.getNumeroAula());
+	    	incidenciaAEditar.setNombreProfesor(incidenciaTic.getNombreProfesor());
+	    	incidenciaAEditar.setTipo(incidenciaTic.getTipo());
+	    	incidenciaAEditar.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
 	    	
-	    	if(incidenciaRepository.findById(incidenciaTic.getId()) != null)
+	    	IncidenciaTic incidenciaActualizada = new IncidenciaTic();
+	    	//buscar la incidencia mediante su id
+	    	incidenciaActualizada = incidenciaRepository.findById(incidenciaAEditar.getId()).get();
+	    	
+	    	if(incidenciaRepository.findById(incidenciaAEditar.getId()) != null)
 	    	{
 	    	
-		        if (incidenciaTic.getNumeroAula() != null) 
+		        if (incidenciaAEditar.getNumeroAula() != null) 
 		        {
 		        	
 		            
-		            incidenciaActualizada.setNumeroAula(incidenciaTic.getNumeroAula());
+		            incidenciaActualizada.setNumeroAula(incidenciaAEditar.getNumeroAula());
 		            // comprobar el nuemro de aula y actualizarlo
 		            
 		        }
-		        if (incidenciaTic.getNombreProfesor() != null) 
+		        if (incidenciaAEditar.getNombreProfesor() != null) 
 		        {
-		            incidenciaActualizada.setNombreProfesor(incidenciaTic.getNombreProfesor());
+		            incidenciaActualizada.setNombreProfesor(incidenciaAEditar.getNombreProfesor());
 		            // comprobar el nombre del profesor y actualizarlo
 		            
 		        }
-		        if (incidenciaTic.getDescripcionIncidencia() != null) 
+		        if (incidenciaAEditar.getDescripcionIncidencia() != null) 
 		        {
-		            incidenciaActualizada.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
+		            incidenciaActualizada.setDescripcionIncidencia(incidenciaAEditar.getDescripcionIncidencia());
 		            // comprobar la descripcion de la incidencia  y actualizarlo
 		            
 		        }
-		        if (incidenciaTic.getStatus() != null) 
+		        if (incidenciaAEditar.getStatus() != null) 
 		        {
-		            incidenciaActualizada.setStatus(incidenciaTic.getStatus());
+		            incidenciaActualizada.setStatus(incidenciaAEditar.getStatus());
 		            // comprobar el estado de la incicdencia y actualizarlo
 		            
 		        }
@@ -187,53 +208,6 @@ public class IncidenciasTicRestWeb
 		
 	}
 	
-	
-	/**
-	 * metodo get para cambiar el atributo pendiente a false para confirmar que la incidencia ya esta cerrada
-	 * @param id
-	 * @return incidenciaActualizada con el atributo booleano pendiente false 
-	 */
-	@RequestMapping(method = RequestMethod.PUT, value = "/resolver_incidencia/{id}")
-	public ResponseEntity<?> resolverIncidencia(@PathVariable Integer id) 
-	{
-	    try 
-	    {
-	        // buscar la incidencia existente por su ID
-	        Optional<IncidenciaTic> incidenciaExistente = incidenciaRepository.findById(id);
-	    	
-	        IncidenciaTic incidenciaActualizada = incidenciaExistente.get();
-	        //miramos si la incidencia exite
-	        if (incidenciaExistente.isPresent()) 
-	        {
-	           
-	            // verificar si ya está resuelta
-	            if (incidenciaActualizada.getStatus().equals(Costantes.STD_REALIZADO)) 
-	            {
-	                return ResponseEntity.badRequest().body("La incidencia ya ha sido resuelta.");
-	            }
-	            
-	            // cambiar el estado de pendiente a false
-	            incidenciaActualizada.setStatus(Costantes.STD_REALIZADO);
-	            
-	            // guardar los cambios
-	            incidenciaRepository.saveAndFlush(incidenciaActualizada);
-	            
-	            
-	        } 
-	        //devolvemos incidenciaActualizada
-	        return ResponseEntity.ok().body(incidenciaActualizada);
-	       
-	    } 
-	    catch(Exception exception)
-		{
-			 IssuesServerException  issuesServerException= new IssuesServerException(Costantes.STD_CODE_ERROR, 
-										 Costantes.STD_MESSAGE_ERROR + "checkear incidencia", exception);
-			
-			log.error(Costantes.STD_MESSAGE_ERROR + "checkear incidencia", issuesServerException);
-			
-			return ResponseEntity.status(500).body(issuesServerException.getBodyMesagge());
-		}
-	}
 
 
 	/**
@@ -241,13 +215,13 @@ public class IncidenciasTicRestWeb
 	 * @param incidenciaTic
 	 * @return incidenciaABorrar
 	 */
-	@RequestMapping(method = RequestMethod.DELETE, value = "/borrar_incidencia")
-	public ResponseEntity<?> cancelarYBorrarPorFormulario(@RequestBody IncidenciaTic incidenciaTic) 
+	/*@RequestMapping(method = RequestMethod.DELETE, value = "/borrar_incidencia")
+	public ResponseEntity<?> cancelarYBorrarPorFormulario(@RequestBody DtoIncidencia incidenciaTic) 
 	{
 		try 
 		{			
 			//creamos una icidencia a borrar
-			 IncidenciaTic incidenciaABorrar= new IncidenciaTic();
+			 DtoIncidencia incidenciaABorrar= new DtoIncidencia();
 			 //buscamos la incidencia por id y se la aignamos a incidenciaABorrar
 			 incidenciaABorrar= incidenciaRepository.getReferenceById(incidenciaTic.getId());
 			//comprobamos si la incidencia esta pendiente
@@ -255,6 +229,44 @@ public class IncidenciasTicRestWeb
 			{
 			//se borra por id
 			incidenciaRepository.deleteById(incidenciaTic.getId());
+			
+			} else 
+			{
+				//controlamos si no esta pendiente
+				return ResponseEntity.status(500).body("No puedes cancelarla porque ya no esta pendiente");
+			}
+			//devolvemos incidenciaABorrar
+			return ResponseEntity.ok().body("Incidencia con el id: " + incidenciaTic.getId() + " ha sido borrada correctamente");
+			
+			
+		} catch(Exception exception)
+		{
+			 IssuesServerException  issuesServerException= new IssuesServerException(Costantes.STD_CODE_ERROR, 
+										 Costantes.STD_MESSAGE_ERROR + "borrar incidencia", exception);
+			
+			log.error(Costantes.STD_MESSAGE_ERROR + "borrar incidencia", issuesServerException);
+			
+			return ResponseEntity.status(500).body(issuesServerException.getBodyMesagge());
+		}
+		
+	}*/
+	@RequestMapping(method = RequestMethod.DELETE, value = "/borrar_incidencia")
+	public ResponseEntity<?> cancelarYBorrarPorFormulario(@RequestBody DtoIncidencia incidenciaTic) 
+	{
+		try 
+		{			
+			//creamos una icidencia a borrar
+			IncidenciaTic incidenciaABorrar = new IncidenciaTic();
+			
+			incidenciaABorrar.setId(incidenciaTic.getId());
+			 
+			 //buscamos la incidencia por id y se la aignamos a incidenciaABorrar
+			incidenciaRepository.getReferenceById(incidenciaABorrar.getId());
+			//comprobamos si la incidencia esta pendiente
+			if(incidenciaABorrar.getStatus().equals(Costantes.STD_PENDIENTE)) 
+			{
+			//se borra por id
+			incidenciaRepository.borrarIncidencia(incidenciaABorrar.getId());
 			
 			} else 
 			{
