@@ -70,8 +70,7 @@ public class IncidenciasTicRestWeb
 	 * @return incidenciasList
 	 */
 	@RequestMapping(method = RequestMethod.GET, value="/mostrar_incidencias")
-	public ResponseEntity<?> mostrarIncidencias(
-			@RequestBody IncidenciaTic incidenciaTic) 
+	public ResponseEntity<?> mostrarIncidencias()
 	{
 		try 
 		{

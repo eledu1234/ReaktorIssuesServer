@@ -27,7 +27,7 @@ public class IncidenciaTic{
 	 * atributo para registrar el numero de aula
 	 */
 	@Column (length=10)
-	private Double numeroAula;
+	private String numeroAula;
 	
 	/**
 	 * atributo para registrar el nombre del profesor
@@ -72,7 +72,7 @@ public class IncidenciaTic{
 	 * @param nombreProfesor
 	 * @param descripcionIncidencia
 	 */
-	public IncidenciaTic(Double numeroAula, String nombreProfesor,
+	public IncidenciaTic(String numeroAula, String nombreProfesor,
 			String descripcionIncidencia) {
 		super();
 		this.numeroAula = numeroAula;
@@ -94,11 +94,11 @@ public class IncidenciaTic{
 		this.id = id;
 	}
 
-	public Double getNumeroAula() {
+	public String getNumeroAula() {
 		return numeroAula;
 	}
 
-	public void setNumeroAula(Double numeroAula) {
+	public void setNumeroAula(String numeroAula) {
 		this.numeroAula = numeroAula;
 	}
 

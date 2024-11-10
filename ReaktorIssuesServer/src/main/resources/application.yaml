@@ -6,7 +6,7 @@ spring:
    driverClassName: com.mysql.cj.jdbc.Driver
    url: jdbc:mysql://localhost:3306/reaktor?createDatabaseIfNotExist=true
    username: root
-   password: 123456Aa-
+   password: lyoko2
 
    hikari:
     connection-timeout: 60000
