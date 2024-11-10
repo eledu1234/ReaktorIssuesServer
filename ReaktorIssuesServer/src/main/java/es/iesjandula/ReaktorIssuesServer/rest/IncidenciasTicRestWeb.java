@@ -1,12 +1,19 @@
 package es.iesjandula.ReaktorIssuesServer.rest;
 
 import java.util.ArrayList;
+<<<<<<< Updated upstream
 import java.util.Collection;
+=======
+>>>>>>> Stashed changes
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+<<<<<<< Updated upstream
+=======
+import org.springframework.web.bind.annotation.CrossOrigin;
+>>>>>>> Stashed changes
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +30,10 @@ import lombok.extern.log4j.Log4j2;
 
 @RequestMapping(value = "/incidenciasTic", produces = { "application/json" })
 @RestController
+<<<<<<< Updated upstream
+=======
+@CrossOrigin(origins = "http://localhost:8081")
+>>>>>>> Stashed changes
 @Log4j2
 public class IncidenciasTicRestWeb 
 {
@@ -47,7 +58,11 @@ public class IncidenciasTicRestWeb
 		{
 		
 			// creamos una nueva incidencia y la guardamos 
+<<<<<<< Updated upstream
 		IncidenciaTic nuevaIncidencia = incidenciaRepository.save(incidenciaTic);
+=======
+		IncidenciaTic nuevaIncidencia = incidenciaRepository.saveAndFlush(incidenciaTic);
+>>>>>>> Stashed changes
 
 		
 		//devolvemos incidencia
@@ -150,25 +165,41 @@ public class IncidenciasTicRestWeb
 		            
 		            incidenciaActualizada.setNumeroAula(incidenciaTic.getNumeroAula());
 		            // comprobar el nuemro de aula y actualizarlo
+<<<<<<< Updated upstream
 		            incidenciaRepository.save(incidenciaActualizada);
+=======
+		            incidenciaRepository.saveAndFlush(incidenciaActualizada);
+>>>>>>> Stashed changes
 		        }
 		        if (incidenciaTic.getNombreProfesor() != null) 
 		        {
 		            incidenciaActualizada.setNombreProfesor(incidenciaTic.getNombreProfesor());
 		            // comprobar el nombre del profesor y actualizarlo
+<<<<<<< Updated upstream
 		            incidenciaRepository.save(incidenciaActualizada);
+=======
+		            incidenciaRepository.saveAndFlush(incidenciaActualizada);
+>>>>>>> Stashed changes
 		        }
 		        if (incidenciaTic.getDescripcionIncidencia() != null) 
 		        {
 		            incidenciaActualizada.setDescripcionIncidencia(incidenciaTic.getDescripcionIncidencia());
 		            // comprobar la descripcion de la incidencia  y actualizarlo
+<<<<<<< Updated upstream
 		            incidenciaRepository.save(incidenciaActualizada);
+=======
+		            incidenciaRepository.saveAndFlush(incidenciaActualizada);
+>>>>>>> Stashed changes
 		        }
 		        if (incidenciaTic.getStatus() != null) 
 		        {
 		            incidenciaActualizada.setStatus(incidenciaTic.getStatus());
 		            // comprobar el estado de la incicdencia y actualizarlo
+<<<<<<< Updated upstream
 		            incidenciaRepository.save(incidenciaActualizada);
+=======
+		            incidenciaRepository.saveAndFlush(incidenciaActualizada);
+>>>>>>> Stashed changes
 		        }
 
 	    	}
@@ -216,7 +247,11 @@ public class IncidenciasTicRestWeb
 	            incidenciaActualizada.setStatus(Costantes.STD_REALIZADO);
 	            
 	            // guardar los cambios
+<<<<<<< Updated upstream
 	            incidenciaRepository.save(incidenciaActualizada);
+=======
+	            incidenciaRepository.saveAndFlush(incidenciaActualizada);
+>>>>>>> Stashed changes
 	            
 	            
 	        } 

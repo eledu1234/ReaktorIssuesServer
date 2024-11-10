@@ -1,7 +1,10 @@
 package es.iesjandula.ReaktorIssuesServer.models;
 
+<<<<<<< Updated upstream
 import java.time.LocalDateTime;
 
+=======
+>>>>>>> Stashed changes
 import es.iesjandula.ReaktorIssuesServer.utils.Costantes;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,8 +43,13 @@ public class IncidenciaTic{
 	 * atributo para registrar la fecha y hora
 	 */
 
+<<<<<<< Updated upstream
 	@Column(nullable = false)
 	private LocalDateTime fechaActual = LocalDateTime.now();
+=======
+	@Column(length = 50)
+	private String fechaActual;
+>>>>>>> Stashed changes
 	
 	/**
 	 * atributo para regitrar la descripccion de la incidencia
@@ -73,11 +81,19 @@ public class IncidenciaTic{
 	 * @param descripcionIncidencia
 	 */
 	public IncidenciaTic(String numeroAula, String nombreProfesor,
+<<<<<<< Updated upstream
 			String descripcionIncidencia) {
 		super();
 		this.numeroAula = numeroAula;
 		this.nombreProfesor = nombreProfesor;
 		this.fechaActual = LocalDateTime.now();
+=======
+			String descripcionIncidencia, String fechaActural) {
+		super();
+		this.numeroAula = numeroAula;
+		this.nombreProfesor = nombreProfesor;
+		this.fechaActual = fechaActural;
+>>>>>>> Stashed changes
 		this.descripcionIncidencia = descripcionIncidencia;
 		
 	}
@@ -110,11 +126,19 @@ public class IncidenciaTic{
 		this.nombreProfesor = nombreProfesor;
 	}
 
+<<<<<<< Updated upstream
 	public LocalDateTime getFechaActual() {
 		return fechaActual;
 	}
 
 	public void setFechaActual(LocalDateTime fechaActual) {
+=======
+	public String getFechaActual() {
+		return fechaActual;
+	}
+
+	public void setFechaActual(String fechaActual) {
+>>>>>>> Stashed changes
 		this.fechaActual = fechaActual;
 	}
 
